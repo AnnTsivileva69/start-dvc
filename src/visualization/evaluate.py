@@ -6,7 +6,8 @@ python src/visualization/evaluate.py \
 -x_test='data/processed/x_test.csv' \
 -y_test='data/processed/y_test.csv' \
 -path_pkl='src/models/decision_tree_classifier.pkl' \
--out_json='reports/scores.json'
+-scores='reports/scores.json' \
+-plot='reports/plot.json'
 
 Команда для запуска DVC
 dvc run -n evaluate \
@@ -20,8 +21,10 @@ python src/visualization/evaluate.py \
 -x_test='data/processed/x_test.csv' \
 -y_test='data/processed/y_test.csv' \
 -path_pkl='src/models/decision_tree_classifier.pkl' \
--out_json='reports/scores.json'
+-scores='reports/scores.json' \
+-plot='reports/plot.json'
 """
+import os
 import argparse
 import pandas as pd
 import numpy as np
@@ -59,9 +62,13 @@ def get_args():
     parser.add_argument('-path_pkl',
                  action="store",
                  dest="path_pkl")
-    parser.add_argument('-out_json',
+    parser.add_argument('-scores',
                  action="store",
-                 dest="out_json",
+                 dest="scores",
+                 required=True)
+    parser.add_argument('-plot',
+                 action="store",
+                 dest="plot",
                  required=True)
     args = parser.parse_args()
     return args
@@ -70,19 +77,19 @@ args = get_args()
 x_train = pd.read_csv(args.x_train)
 x_test = pd.read_csv(args.x_test)
 y_test = pd.read_csv(args.y_test)
-model_file = args.path_pkl
-scores_file = args.out_json
 plot_json = {}
-with open(model_file, 'rb') as fd:
+with open(args.path_pkl, 'rb') as fd:
     model = pickle.load(fd)
 predicted_qualities = model.predict(x_test)
-exp_metrics = {f"{model.__class__.__name__}": eval_metrics(y_test, predicted_qualities)}
+exp_metrics = eval_metrics(y_test, predicted_qualities)
 m1_roc=plot_roc_curve(model, x_test, y_test)
 plot_json[f"{model.__class__.__name__}"] = [{
     'False_Positive_Rate': r,
     'True_Positive_Rate': f
 } for r, f in zip(m1_roc.fpr, m1_roc.tpr)]
-with open(scores_file, 'w') as fd:
+os.makedirs(os.path.join(args.scores.split('/')[0]), exist_ok=True)
+os.makedirs(os.path.join(args.plot.split('/')[0]), exist_ok=True)
+with open(args.scores, 'w') as fd:
     json.dump(exp_metrics, fd)
-with open('reports/plot.json', 'w') as fd:
+with open(args.plot, 'w') as fd:
     json.dump(plot_json, fd)

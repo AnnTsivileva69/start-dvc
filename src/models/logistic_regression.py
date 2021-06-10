@@ -1,3 +1,25 @@
+"""
+Команда запуска скрипта, параметры использованны по умолчанию,
+запускается из корневой директории проекта
+python src/models/logistic_regression.py \
+-x_train='data/processed/x_train.csv' \
+-y_train='data/processed/y_train.csv' \
+-path_pkl='src/models/logistic_regression.pkl'
+
+Команда для запуска DVC
+dvc run -n train_logistic \
+-p train_logistic.max_iter \
+-p train_logistic.random_state \
+-p train_logistic.n_jobs \
+-d src/models/logistic_regression.py \
+-d data/processed/x_train.csv \
+-d data/processed/y_train.csv \
+-o src/models/logistic_regression.pkl \
+python src/models/logistic_regression.py \
+-x_train='data/processed/x_train.csv' \
+-y_train='data/processed/y_train.csv' \
+-path_pkl='src/models/logistic_regression.pkl'
+"""
 import argparse
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
