@@ -81,6 +81,7 @@ def make_train(path_file: str) -> (pd.DataFrame, pd.DataFrame):
 
 args = get_args()
 x_train, y_train = make_train(args.path_train)
-os.makedirs(os.path.join('data', 'interim'), exist_ok=True)
+
+os.makedirs(os.path.join(args.x_train.split('/')[0], args.x_train.split('/')[1]), exist_ok=True)
 x_train.to_csv(args.x_train, index=False)
 y_train.to_csv(args.y_train, index=False)
