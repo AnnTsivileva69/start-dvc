@@ -1,20 +1,20 @@
 """
 Команда запуска скрипта, параметры использованны по умолчанию,
 запускается из корневой директории проекта
-python src/data/prepare.py \ 
--path_train='data/raw/train.csv' \ 
--x_train='data/interim/x_train.csv' \ 
+python src/data/prepare.py \
+-path_train='data/raw/train.csv' \
+-x_train='data/interim/x_train.csv' \
 -y_train='data/interim/y_train.csv'
 
 Команда для запуска DVC
-dvc run -n prepare \ 
--d src/data/prepare.py \ 
--d data/raw \ 
--o data/interim/x_train.csv \ 
--o data/interim/y_train.csv \ 
-python src/data/prepare.py \ 
--path_train='data/raw/train.csv' \ 
--x_train='data/interim/x_train.csv' \ 
+dvc run -n prepare \
+-d src/data/prepare.py \
+-d data/raw \
+-o data/interim/x_train.csv \
+-o data/interim/y_train.csv \
+python src/data/prepare.py \
+-path_train='data/raw/train.csv' \
+-x_train='data/interim/x_train.csv' \
 -y_train='data/interim/y_train.csv'
 """
 import os

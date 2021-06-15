@@ -7,7 +7,7 @@ python src/models/logistic_regression.py \
 -path_pkl='src/models/logistic_regression.pkl'
 
 Команда для запуска DVC
-dvc run -n train_logistic \
+dvc run -n train \
 -p train_logistic.max_iter \
 -p train_logistic.random_state \
 -p train_logistic.n_jobs \
@@ -48,7 +48,7 @@ y_train = pd.read_csv(args.y_train)
 logistic=LogisticRegression(max_iter=params['max_iter'],
                             random_state=params['random_state'],
                             n_jobs=params['n_jobs'])
-logistic.fit(x_train,y_train)
+logistic.fit(x_train,y_train.values.ravel())
 print(logistic.score(x_train,y_train))
 with open(args.path_pkl, 'wb') as fd:
     pickle.dump(logistic, fd)
