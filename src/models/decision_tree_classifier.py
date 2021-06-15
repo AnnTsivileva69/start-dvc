@@ -70,6 +70,6 @@ decision_tree = DecisionTreeClassifier(criterion=decision.best_params_['criterio
                                        min_samples_split=decision.best_params_['min_samples_split'],
                                        max_features=decision.best_params_['max_features'])
 decision_tree.fit(x_train, y_train)
-print(decision_tree.score(x_train,y_train))
+print(decision_tree.score(x_train,y_train.values.ravel()))
 with open(args.path_pkl, 'wb') as fd:
     pickle.dump(decision_tree, fd)
