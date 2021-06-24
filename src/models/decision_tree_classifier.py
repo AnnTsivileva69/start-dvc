@@ -60,7 +60,7 @@ grid_param = {
 }
 decision_tree = DecisionTreeClassifier()
 decision = GridSearchCV(decision_tree, grid_param, cv = 5, n_jobs = -1, verbose = 1)
-decision.fit(x_train, y_train)
+decision.fit(x_train, y_train.values.ravel())
 print(decision.best_params_)
 print(decision.best_score_)
 decision_tree = DecisionTreeClassifier(criterion=decision.best_params_['criterion'],
